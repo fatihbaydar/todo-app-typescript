@@ -2,15 +2,27 @@ import { Save } from "@mui/icons-material";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 
-const AddTodo = ({addTodo}) => {
+interface IAddTodo {
+  addTodo: (task: string) => Promise<void>;
+}
+
+//1.yol
+// const AddTodo = ({addTodo}:{addTodo: (task:string) =>Promise<void>}) => {
+
+//2.yol
+const AddTodo = ({ addTodo }: IAddTodo) => {
   // const [task, setTask] = useState("") //! her zaman type belirtmemize gerek yok. Typescript type inference özelliği sayesinde initial değerine göre otomatik type ataması yapıyor.
   const [task, setTask] = useState("");
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTask(e.target.value)
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setTask(e.target.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log(task)
-  }
+    e.preventDefault();
+    console.log(task);
+    addTodo(task)
+    setTask("")
+  };
   return (
     <Box
       component="form"
@@ -26,7 +38,8 @@ const AddTodo = ({addTodo}) => {
         color="success"
         sx={{ minWidth: { xs: "100%", sm: "50%" }, height: "50px", m: 1 }}
         // onChange={e =>setTask(e.target.value) }
-        onChange = {handleChange}
+        onChange={handleChange}
+        value={task}
       />
       <Button
         variant="contained"
