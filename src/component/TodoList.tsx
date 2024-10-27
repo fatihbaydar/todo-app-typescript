@@ -2,9 +2,10 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React from "react";
 import TodoItem from "./TodoItem";
-import "./style.css"
+import "./style.css";
 interface ITodoList {
-    todos: ITodoType[]
+  todos: ITodoType[];
+  toggleTodo: ToggleFn;
 }
 
 //* 3.yol React.FC kullanımı
@@ -16,9 +17,10 @@ interface ITodoList {
 
 //+ FC, "FunctionComponent" kelimelerinin kısaltmasıdır.
 
-const TodoList: React.FC<ITodoList> = ({todos}) => {
-    const InProgressTodos = todos.filter(todo => !todo.isDone)
-    const CompletedTodos = todos.filter(todo => todo.isDone)
+const TodoList: React.FC<ITodoList> = ({ todos, toggleTodo }) => {
+  const InProgressTodos = todos.filter((todo) => !todo.isDone);
+  const CompletedTodos = todos.filter((todo) => todo.isDone);
+
   return (
     <Grid
       container
@@ -42,13 +44,23 @@ const TodoList: React.FC<ITodoList> = ({todos}) => {
           borderRadius: "0.5rem",
         }}
       >
-        <Typography className="title" color="secondary" align="center" variant="h4">
-            In Progress Todos
+        <Typography
+          className="title"
+          color="secondary"
+          align="center"
+          variant="h4"
+        >
+          In Progress Todos
         </Typography>
-        {
-            InProgressTodos.length ? InProgressTodos.map(todo => <TodoItem key={todo.id} todo={todo}/>) :
-            <Typography color="error" mt={3} >No Progress Todos!</Typography>
-        }
+        {InProgressTodos.length ? (
+          InProgressTodos.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} />
+          ))
+        ) : (
+          <Typography color="error" mt={3}>
+            No Progress Todos!
+          </Typography>
+        )}
       </Grid>
       <Grid
         size={{ xs: 12, sm: 8, md: 5 }}
@@ -62,13 +74,23 @@ const TodoList: React.FC<ITodoList> = ({todos}) => {
           borderRadius: "0.5rem",
         }}
       >
-        <Typography className="title" sx={{color:"green"}} align="center" variant="h4">
-            Completed Todos
+        <Typography
+          className="title"
+          sx={{ color: "green" }}
+          align="center"
+          variant="h4"
+        >
+          Completed Todos
         </Typography>
-        {
-            CompletedTodos.length ? CompletedTodos.map(todo => <TodoItem key={todo.id} todo={todo}/>) :
-            <Typography color="error" mt={3} >No Completed Todos!</Typography>
-        }
+        {CompletedTodos.length ? (
+          CompletedTodos.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} />
+          ))
+        ) : (
+          <Typography color="error" mt={3}>
+            No Completed Todos!
+          </Typography>
+        )}
       </Grid>
     </Grid>
   );
