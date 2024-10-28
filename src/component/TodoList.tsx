@@ -6,6 +6,7 @@ import "./style.css";
 interface ITodoList {
   todos: ITodoType[];
   toggleTodo: ToggleFn;
+  deleteTodo: DeleteFn
 }
 
 //* 3.yol React.FC kullanımı
@@ -17,7 +18,7 @@ interface ITodoList {
 
 //+ FC, "FunctionComponent" kelimelerinin kısaltmasıdır.
 
-const TodoList: React.FC<ITodoList> = ({ todos, toggleTodo }) => {
+const TodoList: React.FC<ITodoList> = ({ todos, toggleTodo, deleteTodo }) => {
   const InProgressTodos = todos.filter((todo) => !todo.isDone);
   const CompletedTodos = todos.filter((todo) => todo.isDone);
 
@@ -54,7 +55,7 @@ const TodoList: React.FC<ITodoList> = ({ todos, toggleTodo }) => {
         </Typography>
         {InProgressTodos.length ? (
           InProgressTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} />
+            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo= {deleteTodo} />
           ))
         ) : (
           <Typography color="error" mt={3}>
@@ -84,7 +85,7 @@ const TodoList: React.FC<ITodoList> = ({ todos, toggleTodo }) => {
         </Typography>
         {CompletedTodos.length ? (
           CompletedTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} />
+            <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo= {deleteTodo}/>
           ))
         ) : (
           <Typography color="error" mt={3}>
