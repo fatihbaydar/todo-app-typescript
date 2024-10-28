@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import AddTodo from "../component/AddTodo";
 import axios from "axios";
 import TodoList from "../component/TodoList";
+import { notify, SweetIcon } from "../helper/sweetalert";
 
 // interface ITodoType {
 //   task: string;
@@ -43,27 +44,33 @@ const Main = () => {
   const addTodo:AddFn = async (task) => {
     try {
       await axios.post(url, { task, isDone: false });
+      notify("Todo created", SweetIcon.SUCCESS)
       getTodos()
     } catch (error) {
       console.log(error);
+      notify("Todo not created", SweetIcon.ERROR)
     }
   };
 
   const toggleTodo:ToggleFn = async (todo) => {
     try {
       await axios.put(`${url}/${todo.id}`, { ...todo, isDone:!todo.isDone });
+      notify("Todo updated", SweetIcon.SUCCESS)
       getTodos()
     } catch (error) {
       console.log(error);
+      notify("Todo not updated", SweetIcon.ERROR)
     }
   };
 
   const deleteTodo:DeleteFn = async (id) => {
     try {
       await axios.delete(`${url}/${id}`);
+      notify("Todo deleted", SweetIcon.SUCCESS)
       getTodos()
     } catch (error) {
       console.log(error);
+      notify("Todo not deleted", SweetIcon.ERROR)
     }
   };
 
